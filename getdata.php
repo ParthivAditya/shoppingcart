@@ -1,8 +1,8 @@
 <?php
 $host = "localhost";
-$user = "username";
-$pass = "password";
-$db   = "database_name";
+$user = "prashuuu";
+$pass = "123456";
+$db   = "dmart_data";
 
 $conn = new mysqli($host,$user,$pass,$db);
 if($conn->connect_error){
