@@ -75,7 +75,7 @@ let myChart = new Chart(ctx,{
 });
 
 function loadData(){
-  fetch("getdata.php")
+  fetch("https://mytrolley.000webhostapp.com/getdata.php")
   .then(res => res.json())
   .then(data => {
 
