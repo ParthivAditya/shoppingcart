@@ -75,16 +75,25 @@ let myChart = new Chart(ctx,{
 });
 
 function loadData(){
-  fetch("https://mytrolley.000webhostapp.com/getdata.php")
-  .then(res => res.json())
-  .then(data => {
+  let rice  = Math.floor(Math.random()*500);
+  let sugar = Math.floor(Math.random()*300);
+  let salt  = Math.floor(Math.random()*200);
+  let dal   = Math.floor(Math.random()*400);
+  let wheat = Math.floor(Math.random()*350);
 
-    document.getElementById("r").innerText  = data.s1;
-    document.getElementById("s").innerText  = data.s2;
-    document.getElementById("sa").innerText = data.s3;
-    document.getElementById("d").innerText  = data.s4;
-    document.getElementById("w").innerText  = data.s5;
-    document.getElementById("t").innerText  = data.s6;
+  document.getElementById("r").innerText  = rice;
+  document.getElementById("s").innerText  = sugar;
+  document.getElementById("sa").innerText = salt;
+  document.getElementById("d").innerText  = dal;
+  document.getElementById("w").innerText  = wheat;
+
+  let total = rice + sugar + salt + dal + wheat;
+  document.getElementById("t").innerText = total;
+
+  myChart.data.datasets[0].data = [rice,sugar,salt,dal,wheat];
+  myChart.update();
+}
+
 
     myChart.data.datasets[0].data = [
       data.s1,
