@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart Shopping Trolley Dashboard</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body{
+      font-family: Arial;
+      background:#eef2f3;
+      padding:20px;
+    }
+    h1{
+      text-align:center;
+      color:#005f73;
+    }
+    .box{
+      background:#fff;
+      padding:15px;
+      margin:10px auto;
+      width:360px;
+      border-radius:8px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    }
+    table{
+      width:100%;
+    }
+    td{
+      padding:6px;
+    }
+    #theft{
+      font-size:18px;
+      font-weight:bold;
+      text-align:center;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Smart Shopping Trolley – Live Dashboard</h1>
+
+<div class="box">
+  <table>
+    <tr><td>Rice</td><td id="r">0</td></tr>
+    <tr><td>Sugar</td><td id="s">0</td></tr>
+    <tr><td>Salt</td><td id="sa">0</td></tr>
+    <tr><td>Dal</td><td id="d">0</td></tr>
+    <tr><td>Wheat</td><td id="w">0</td></tr>
+    <tr><td><b>Total</b></td><td id="t">0</td></tr>
+  </table>
+</div>
+
+<div class="box">
+  <div id="theft" style="color:green">Status: Normal</div>
+</div>
+
+<div class="box">
+  <canvas id="chart"></canvas>
+</div>
+
+<script>
+let ctx = document.getElementById("chart").getContext("2d");
+
+let myChart = new Chart(ctx,{
+  type:'bar',
+  data:{
+    labels:['Rice','Sugar','Salt','Dal','Wheat'],
+    datasets:[{
+      label:'Item Price',
+      data:[0,0,0,0,0]
+    }]
+  }
+});
+
+function loadData(){
+  fetch("getdata.php")
+  .then(res => res.json())
+  .then(data => {
+
+    document.getElementById("r").innerText  = data.s1;
+    document.getElementById("s").innerText  = data.s2;
+    document.getElementById("sa").innerText = data.s3;
+    document.getElementById("d").innerText  = data.s4;
+    document.getElementById("w").innerText  = data.s5;
+    document.getElementById("t").innerText  = data.s6;
+
+    myChart.data.datasets[0].data = [
+      data.s1,
+      data.s2,
+      data.s3,
+      data.s4,
+      data.s5
+    ];
+    myChart.update();
+
+    if(data.s7 == "Theft_Occur"){
+      document.getElementById("theft").innerText = "Status: THEFT DETECTED";
+      document.getElementById("theft").style.color = "red";
+    }else{
+      document.getElementById("theft").innerText = "Status: Normal";
+      document.getElementById("theft").style.color = "green";
+    }
+  });
+}
+
+setInterval(loadData,3000); // LIVE every 3 seconds
+</script>
+
+</body>
+</html>
